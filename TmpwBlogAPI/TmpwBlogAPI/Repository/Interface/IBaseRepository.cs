@@ -1,13 +1,16 @@
 ﻿using System;
+using TmpwBlogAPI.Entities;
+
 namespace TmpwBlogAPI.Repository.Interface
 {
-	public interface IBaseRepository<T>
+	public interface IBaseRepository<T, K> where T:BaseEntity
 	{
-		List<T> GetAll();
-		T Get();
-		void Add(T t);
-		void Delete(int id);
-		void Update(T t);
+		Task<List<T>> GetAll();
+		IQueryable<T> Find();
+		Task<T> Get(K id);
+		Task<T> Add(T entity);
+        Task<T> Delete(K id);
+        Task<T> Update(T entity);
 	}
 }
 

@@ -28,7 +28,6 @@
     <None Remove="Seeder\" />
     <None Remove="Repository\" />
     <None Remove="Repository\Interface\" />
-    <None Remove="Repository\Impl\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -36,6 +35,5 @@
     <Folder Include="Seeder\" />
     <Folder Include="Repository\" />
     <Folder Include="Repository\Interface\" />
-    <Folder Include="Repository\Impl\" />
   </ItemGroup>
 </Project>
