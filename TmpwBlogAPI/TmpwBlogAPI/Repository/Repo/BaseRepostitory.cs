@@ -7,46 +7,57 @@ namespace TmpwBlogAPI.Repository.Impl
 {
 	public abstract class BaseRepostitory<T, K> : IBaseRepository<T, K> where T:BaseEntity
 	{
-        private readonly BlogDbContext _blogDbContext;
+        private readonly BlogDbContext context;
         private readonly DbSet<T> _dbSet;
 
         #region Constructor
-        public BaseRepostitory(BlogDbContext blogDbContext)
+        public BaseRepostitory(BlogDbContext context)
 		{
-            _blogDbContext = blogDbContext;
-            _dbSet = this._blogDbContext.Set<T>();
+            this.context = context;
+            _dbSet = this.context.Set<T>();
 		}
         #endregion
 
         #region Public Methods
         public virtual async Task<T> Add(T entity)
         {
-            throw new NotImplementedException();
+            _dbSet.Add(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
         public virtual async Task<T> Delete(K id)
         {
-            throw new NotImplementedException();
+            var entity = await _dbSet.FindAsync(id);
+            if (entity == null)
+            {
+                return entity;
+            }
+            _dbSet.Remove(entity);
+            await context.SaveChangesAsync();
+            return entity;
         }
 
-        public virtual async IQueryable<T> Find()
+        public virtual IQueryable<T> Find()
         {
-            throw new NotImplementedException();
+            return _dbSet;
         }
 
         public virtual async Task<T> Get(K id)
         {
-            throw new NotImplementedException();
+            return await _dbSet.FindAsync(id);
         }
 
         public virtual async Task<List<T>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _dbSet.ToListAsync();
         }
 
         public virtual async Task<T> Update(T entity)
         {
-            throw new NotImplementedException();
+            context.Entry(entity).State = EntityState.Modified;
+            await context.SaveChangesAsync();
+            return entity;
         }
         #endregion
     }
